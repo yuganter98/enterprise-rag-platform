@@ -2,15 +2,17 @@ import os
 import pandas as pd
 from sqlalchemy.orm import Session
 from datetime import datetime
+from typing import Optional
 
 from app.models.employee import Employee
 
 REPORT_DIR = os.path.join(os.getcwd(), "data", "reports")
 
-def generate_employee_report(db: Session, filters: dict) -> str:
+def generate_employee_report(db: Session, filters: dict) -> Optional[str]:
     """
     Generates an Excel report of employees based on filters.
-    Returns the absolute file path of the generated report.
+    Returns the absolute file path of the generated report,
+    or None if no employees match the filters.
     """
     if not os.path.exists(REPORT_DIR):
         os.makedirs(REPORT_DIR)
@@ -26,7 +28,7 @@ def generate_employee_report(db: Session, filters: dict) -> str:
     employees = query.all()
     
     if not employees:
-        return "No data found matching filters."
+        return None
 
     # Convert to DataFrame
     data = []

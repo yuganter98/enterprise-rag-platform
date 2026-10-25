@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
@@ -30,9 +29,9 @@ function AppRoutes() {
             <Route
                 path="/"
                 element={
-                    <AdminRoute>
+                    <ProtectedRoute>
                         <Chat />
-                    </AdminRoute>
+                    </ProtectedRoute>
                 }
             />
             <Route

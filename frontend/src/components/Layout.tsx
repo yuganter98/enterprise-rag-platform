@@ -1,8 +1,7 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { MessageSquare, FileText, BarChart, Mail, LogOut, Calendar, UserPlus } from 'lucide-react';
-import client from '../api/client';
 
 const Layout = ({ children }: { children: ReactNode }) => {
     const { logout, isAdmin } = useAuth();
@@ -12,7 +11,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
 
     const navItems = [
-        { name: 'Chat', path: '/', icon: <MessageSquare size={20} />, adminOnly: true },
+        { name: 'Chat', path: '/', icon: <MessageSquare size={20} />, adminOnly: false },
         { name: 'Documents', path: '/documents', icon: <FileText size={20} />, adminOnly: true },
         { name: 'Reports', path: '/reports', icon: <BarChart size={20} />, adminOnly: true },
         { name: 'Email', path: '/email', icon: <Mail size={20} />, adminOnly: true },

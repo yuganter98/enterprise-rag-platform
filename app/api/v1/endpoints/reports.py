@@ -1,5 +1,7 @@
 from typing import Any
+import os
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
 from app.api import deps
@@ -22,5 +24,12 @@ def generate_report(
     if not (has_role(current_user, "hr") or has_role(current_user, "admin")):
         raise HTTPException(status_code=403, detail="Not authorized to generate reports")
 
-    file_path = generate_employee_report(db, request.filters)
-    return {"message": "Report generated", "file_path": file_path}
+    file_path = generate_employee_report(db, request.filters or {})
+    if not file_path:
+        raise HTTPException(status_code=404, detail="No employees match the given filters")
+
+    return FileResponse(
+        file_path,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        filename=os.path.basename(file_path),
+    )

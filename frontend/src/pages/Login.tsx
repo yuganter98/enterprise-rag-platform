@@ -20,18 +20,7 @@ const Login: React.FC = () => {
             const response = await client.post('/login/access-token', formData);
             login(response.data.access_token);
 
-            // Check role to decide where to go
-            try {
-                const userRes = await client.get('/users/me');
-                if (userRes.data.role.name === 'admin') {
-                    navigate('/');
-                } else {
-                    navigate('/events');
-                }
-            } catch (roleError) {
-                // Fallback if fetching role fails (shouldn't happen)
-                navigate('/');
-            }
+            navigate('/');
 
         } catch (err) {
             setError('Invalid credentials');
