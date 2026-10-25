@@ -1,10 +1,12 @@
 # Build the React app, then serve the static files with nginx.
 FROM node:20-alpine AS build
 WORKDIR /app
-RUN corepack enable
 
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+# Install the exact pnpm version pinned in package.json's "packageManager"
+# (an unpinned pnpm ignores our build-script settings and fails the install).
+RUN npm install -g "$(node -p "require('./package.json').packageManager")" \
+    && pnpm install --frozen-lockfile
 
 COPY . .
 # Baked in at build time (Vite inlines env vars into the bundle)
