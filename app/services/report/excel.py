@@ -4,9 +4,10 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 from typing import Optional
 
+from app.core.config import settings
 from app.models.employee import Employee
 
-REPORT_DIR = os.path.join(os.getcwd(), "data", "reports")
+REPORT_DIR = os.path.join(os.path.abspath(settings.DATA_DIR), "reports")
 
 def generate_employee_report(db: Session, filters: dict) -> Optional[str]:
     """

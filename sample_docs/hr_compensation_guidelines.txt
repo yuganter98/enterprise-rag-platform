@@ -1,0 +1,23 @@
+LUMEN DYNAMICS - COMPENSATION GUIDELINES (CONFIDENTIAL: HR AND ADMIN ONLY)
+Version 2026.1 (fictional company, sample data for demos)
+
+1. SALARY BANDS (annual base salary, USD)
+Software Engineer I: 85,000 - 105,000
+Software Engineer II: 105,000 - 130,000
+Senior Software Engineer: 130,000 - 165,000
+Staff Engineer: 165,000 - 210,000
+Engineering Manager: 150,000 - 195,000
+Data Analyst: 75,000 - 98,000
+HR Business Partner: 90,000 - 120,000
+
+2. ANNUAL REVIEW CYCLE
+Compensation reviews happen once a year in March. The total merit budget for 2026 is 4.5 percent of payroll. Employees rated "exceeds expectations" are eligible for a 6 to 9 percent increase; "meets expectations" for 3 to 5 percent.
+
+3. PROMOTIONS
+Promotions are decided by a calibration committee twice per year, in March and September. A promotion comes with a minimum 8 percent base salary increase and moves the employee at least to the bottom of the new band.
+
+4. BONUSES
+The annual company bonus target is 10 percent of base salary for individual contributors and 15 percent for managers, paid in February based on company and individual performance.
+
+5. OFFERS
+New-hire offers above the midpoint of the band require approval from the Head of People. Sign-on bonuses are capped at 20,000 USD.

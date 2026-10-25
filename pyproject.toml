@@ -1,0 +1,23 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+extend-exclude = ["alembic/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "B"]
+ignore = [
+    "E501",  # long lines
+    "B008",  # FastAPI's Depends()/File() in argument defaults
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E402"]
+"alembic/env.py" = ["E402"]  # imports must follow Alembic config setup

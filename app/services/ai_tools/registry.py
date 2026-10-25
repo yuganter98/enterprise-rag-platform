@@ -1,4 +1,4 @@
-from typing import Callable, List, Dict
+from typing import Callable
 
 # Metadata describing the tools for the LLM
 AVAILABLE_TOOLS = [

@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from typing import List, Optional
+from typing import List
 from langchain_community.document_loaders import PyPDFLoader, TextLoader, Docx2txtLoader, CSVLoader, DataFrameLoader
 from langchain_core.documents import Document
 
@@ -36,7 +36,7 @@ def load_document(file_path: str) -> List[Document]:
             # We'll stick to page_content_column if we knew it, but here we load entire row content.
             loader = DataFrameLoader(df, page_content_column=df.columns[0] if not df.empty else "content")
         except Exception as e:
-            raise ValueError(f"Failed to load Excel file: {str(e)}")
+            raise ValueError(f"Failed to load Excel file: {str(e)}") from e
     else:
         raise ValueError(f"Unsupported file type: {ext}")
 

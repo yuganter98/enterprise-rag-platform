@@ -1,5 +1,3 @@
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnablePassthrough
 
 from app.services.rag.retriever import search_documents
 from app.services.rag.llm import get_llm
