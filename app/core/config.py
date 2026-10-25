@@ -1,13 +1,22 @@
+import secrets
+import warnings
 from typing import List, Union
-from pydantic import AnyHttpUrl, PostgresDsn, validator, EmailStr
+from pydantic import AnyHttpUrl, PostgresDsn, validator, model_validator, EmailStr
 from pydantic_settings import BaseSettings
+
+# Development-only fallbacks. Refused when ENVIRONMENT=production.
+DEV_SUPERUSER_PASSWORD = "admin123"
+DEV_POSTGRES_PASSWORD = "password"
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Enterprise AI Assistant"
     API_V1_STR: str = "/api/v1"
+    ENVIRONMENT: str = "development"  # "development" or "production"
     
     # JWT Auth
-    SECRET_KEY: str = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+    # Must be set via env/.env. In development a random key is generated per
+    # process (tokens stop working after a restart); production refuses to start.
+    SECRET_KEY: str = ""
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
@@ -25,7 +34,7 @@ class Settings(BaseSettings):
     # Database
     POSTGRES_SERVER: str = "localhost"
     POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = "password"
+    POSTGRES_PASSWORD: str = DEV_POSTGRES_PASSWORD
     POSTGRES_DB: str = "enterprise_ai"
     SQLALCHEMY_DATABASE_URI: Union[PostgresDsn, str] = ""
 
@@ -43,7 +52,10 @@ class Settings(BaseSettings):
 
     # Superuser (Seeding)
     FIRST_SUPERUSER: EmailStr = "admin@enterprise.com"
-    FIRST_SUPERUSER_PASSWORD: str = "admin123"
+    FIRST_SUPERUSER_PASSWORD: str = DEV_SUPERUSER_PASSWORD
+
+    # Uploads
+    MAX_UPLOAD_SIZE_MB: int = 20
 
     # Email
     SMTP_TLS: bool = True
@@ -57,6 +69,29 @@ class Settings(BaseSettings):
     # LLM (LM Studio / OpenAI)
     LLM_BASE_URL: str = "http://localhost:1234/v1"
     LLM_API_KEY: str = "lm-studio"
+
+    @model_validator(mode="after")
+    def check_secrets(self) -> "Settings":
+        problems = []
+        if not self.SECRET_KEY:
+            problems.append("SECRET_KEY is not set")
+        elif len(self.SECRET_KEY) < 32:
+            problems.append("SECRET_KEY must be at least 32 characters")
+        if self.FIRST_SUPERUSER_PASSWORD == DEV_SUPERUSER_PASSWORD:
+            problems.append("FIRST_SUPERUSER_PASSWORD is the default development password")
+        if self.POSTGRES_PASSWORD == DEV_POSTGRES_PASSWORD and "postgresql" in str(self.SQLALCHEMY_DATABASE_URI):
+            problems.append("POSTGRES_PASSWORD is the default development password")
+
+        if self.ENVIRONMENT == "production":
+            if problems:
+                raise ValueError("Insecure production settings: " + "; ".join(problems))
+            return self
+
+        if not self.SECRET_KEY:
+            self.SECRET_KEY = secrets.token_urlsafe(48)
+        for problem in problems:
+            warnings.warn(f"[config] {problem} (allowed in development only)", stacklevel=2)
+        return self
 
     class Config:
         case_sensitive = True
