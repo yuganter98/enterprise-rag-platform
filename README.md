@@ -75,10 +75,12 @@ pip install -r requirements.txt
 
 # Set up environment variables
 cp .env.example .env
-# (Edit .env with your secret keys and SMTP settings)
+# Edit .env: set SECRET_KEY, FIRST_SUPERUSER_PASSWORD and SMTP settings.
+# Generate a key with: python -c "import secrets; print(secrets.token_urlsafe(48))"
 
-# Initialize Database
+# Initialize Database and create the admin account
 alembic upgrade head
+python -m app.initial_data
 
 # Run the Server
 python -m uvicorn app.main:app --reload
@@ -101,11 +103,17 @@ The Frontend UI will run at `http://localhost:5173`.
 
 ---
 
+## 🔐 Security Configuration
+
+*   `ENVIRONMENT=production` makes the API refuse to start if `SECRET_KEY` is missing or shorter than 32 characters, or if the admin/database passwords are still the development defaults.
+*   In development, missing values only produce warnings, and a random `SECRET_KEY` is generated on each start (so you'll need to log in again after a restart). Set `SECRET_KEY` in `.env` to avoid that.
+*   Uploads are admin-only, limited to `MAX_UPLOAD_SIZE_MB` (default 20) and the allowed file types, and are stored under random names.
+
 ## 📖 Usage Guide
 
 1.  **Login**: Access the dashboard at `http://localhost:5173`.
-    *   *Default Admin*: (Check `app/initial_data.py` or create your own via API/Swagger).
-2.  **Upload Documents**: Go to the **Documents** tab (Admin only) to upload PDFs.
+    *   *Admin account*: `FIRST_SUPERUSER` / `FIRST_SUPERUSER_PASSWORD` from your `.env`.
+2.  **Upload Documents**: Go to the **Documents** tab (Admin only) to upload PDF, TXT, DOCX, CSV or XLSX files and choose which roles can see them.
 3.  **Chat**: Use the **Chat** interface to query your uploaded documents.
 4.  **Manage Users**: Go to **Users** (Admin only) to create new Employee accounts.
 5.  **Events**: Check the **Events** tab to see company schedules.

@@ -17,4 +17,19 @@ client.interceptors.request.use(
     }
 );
 
+// If the token is missing, expired or invalid, drop it and send the user to login.
+client.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        const isLoginRequest = error.config?.url?.includes('/login/access-token');
+        if (error.response?.status === 401 && !isLoginRequest) {
+            localStorage.removeItem('token');
+            if (window.location.pathname !== '/login') {
+                window.location.href = '/login';
+            }
+        }
+        return Promise.reject(error);
+    }
+);
+
 export default client;

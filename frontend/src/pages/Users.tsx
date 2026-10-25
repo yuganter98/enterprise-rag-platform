@@ -140,6 +140,7 @@ const Users: React.FC = () => {
                                     <input
                                         type="password"
                                         required
+                                        minLength={8}
                                         className="w-full p-3 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                                         value={newUser.password}
                                         onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}

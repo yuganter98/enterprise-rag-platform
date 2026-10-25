@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from datetime import datetime
 
 class RoleBase(BaseModel):
@@ -16,7 +16,7 @@ class UserBase(BaseModel):
     is_active: bool = True
 
 class UserCreate(UserBase):
-    password: str
+    password: str = Field(min_length=8)
     role_id: Optional[int] = None  # Defaults to the 'employee' role when omitted
 
 class UserResponse(UserBase):
