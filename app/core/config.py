@@ -43,7 +43,8 @@ class Settings(BaseSettings):
         if isinstance(v, str) and v:
             return v
         return PostgresDsn.build(
-            scheme="postgresql",
+            # Explicit driver: SQLAlchemy 2.0 and 2.1 default to different ones
+            scheme="postgresql+psycopg",
             username=values.get("POSTGRES_USER"),
             password=values.get("POSTGRES_PASSWORD"),
             host=values.get("POSTGRES_SERVER"),
