@@ -1,8 +1,9 @@
+import json
 import secrets
 import warnings
-from typing import List, Union
+from typing import Annotated, List, Union
 from pydantic import AnyHttpUrl, PostgresDsn, validator, model_validator, EmailStr
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, NoDecode
 
 # Development-only fallbacks. Refused when ENVIRONMENT=production.
 DEV_SUPERUSER_PASSWORD = "admin123"
@@ -21,13 +22,18 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
     # CORS
-    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
+    # NoDecode: pass the raw env string to the validator below instead of
+    # requiring JSON, so "http://a,http://b" works as well as '["http://a"]'.
+    BACKEND_CORS_ORIGINS: Annotated[List[AnyHttpUrl], NoDecode] = []
 
     @validator("BACKEND_CORS_ORIGINS", pre=True)
-    def assemble_cors_origins(cls, v: Union[str, List[str]]) -> Union[List[str], str]:
-        if isinstance(v, str) and not v.startswith("["):
-            return [i.strip() for i in v.split(",")]
-        elif isinstance(v, (list, str)):
+    def assemble_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
+        if isinstance(v, str):
+            v = v.strip()
+            if v.startswith("["):
+                return json.loads(v)
+            return [i.strip() for i in v.split(",") if i.strip()]
+        if isinstance(v, list):
             return v
         raise ValueError(v)
 

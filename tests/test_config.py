@@ -35,3 +35,20 @@ def test_development_generates_key_and_warns():
     with pytest.warns(UserWarning, match="development only"):
         s = make(ENVIRONMENT="development", SECRET_KEY="")
     assert len(s.SECRET_KEY) >= 32
+
+
+@pytest.mark.parametrize("raw", [
+    "http://localhost:5173",
+    "http://localhost:5173, https://app.example.com",
+    '["http://localhost:5173", "https://app.example.com"]',
+])
+def test_cors_origins_from_env(monkeypatch, raw):
+    monkeypatch.setenv("BACKEND_CORS_ORIGINS", raw)
+    origins = [str(o).rstrip("/") for o in make().BACKEND_CORS_ORIGINS]
+    assert origins[0] == "http://localhost:5173"
+    assert len(origins) == raw.count("http")
+
+
+def test_cors_origins_empty_env(monkeypatch):
+    monkeypatch.setenv("BACKEND_CORS_ORIGINS", "")
+    assert make().BACKEND_CORS_ORIGINS == []
