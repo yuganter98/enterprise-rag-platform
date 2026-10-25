@@ -10,15 +10,33 @@ interface UserType {
     is_active: boolean;
 }
 
+interface RoleType {
+    id: number;
+    name: string;
+}
+
 const Users: React.FC = () => {
     const [users, setUsers] = useState<UserType[]>([]);
     const [showModal, setShowModal] = useState(false);
-    const [newUser, setNewUser] = useState({ email: '', password: '', role_id: 2 });
+    const [roles, setRoles] = useState<RoleType[]>([]);
+    const [newUser, setNewUser] = useState<{ email: string; password: string; role_id: number | null }>({ email: '', password: '', role_id: null });
     const [error, setError] = useState('');
 
     useEffect(() => {
         fetchUsers();
+        fetchRoles();
     }, []);
+
+    const fetchRoles = async () => {
+        try {
+            const res = await client.get('/users/roles');
+            setRoles(res.data);
+        } catch (error) {
+            console.error("Failed to fetch roles", error);
+        }
+    };
+
+    const defaultRoleId = () => roles.find((r) => r.name === 'employee')?.id ?? null;
 
     const fetchUsers = async () => {
         try {
@@ -35,7 +53,7 @@ const Users: React.FC = () => {
         try {
             await client.post('/users/', newUser);
             setShowModal(false);
-            setNewUser({ email: '', password: '', role_id: 2 });
+            setNewUser({ email: '', password: '', role_id: defaultRoleId() });
             fetchUsers();
             alert("User created successfully");
         } catch (err: any) {
@@ -52,7 +70,7 @@ const Users: React.FC = () => {
                         <p className="text-slate-500 mt-1">Manage system access and roles</p>
                     </div>
                     <button
-                        onClick={() => setShowModal(true)}
+                        onClick={() => { setNewUser({ email: '', password: '', role_id: defaultRoleId() }); setShowModal(true); }}
                         className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg shadow-sm transition-all flex items-center gap-2"
                     >
                         <UserPlus size={18} />
@@ -131,11 +149,14 @@ const Users: React.FC = () => {
                                     <label className="block text-sm font-medium text-slate-700 mb-1">Role</label>
                                     <select
                                         className="w-full p-3 border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-                                        value={newUser.role_id}
+                                        value={newUser.role_id ?? ''}
                                         onChange={(e) => setNewUser({ ...newUser, role_id: parseInt(e.target.value) })}
                                     >
-                                        <option value={2}>Employee</option>
-                                        <option value={1}>Admin</option>
+                                        {roles.map((role) => (
+                                            <option key={role.id} value={role.id}>
+                                                {role.name.charAt(0).toUpperCase() + role.name.slice(1)}
+                                            </option>
+                                        ))}
                                     </select>
                                 </div>
                                 <div className="flex justify-end gap-3 pt-4">

@@ -17,7 +17,7 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
-    role_id: int = 2  # Default to Employee (assuming 2) or force selection
+    role_id: Optional[int] = None  # Defaults to the 'employee' role when omitted
 
 class UserResponse(UserBase):
     id: int

@@ -11,10 +11,22 @@ const Reports: React.FC = () => {
         setLoading(true);
         setResult('');
         try {
-            const res = await client.post('/reports/employees', { filters: {} });
-            setResult(`Report generated at: ${res.data.file_path}`);
-        } catch (err) {
-            setResult('Error generating report.');
+            const res = await client.post('/reports/employees', { filters: {} }, { responseType: 'blob' });
+            const disposition: string = res.headers['content-disposition'] || '';
+            const match = disposition.match(/filename="?([^";]+)"?/);
+            const filename = match ? match[1] : 'employee_report.xlsx';
+
+            const url = URL.createObjectURL(res.data);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+            setResult(`Downloaded ${filename}`);
+        } catch (err: any) {
+            setResult(err.response?.status === 404 ? 'No employee data to report yet.' : 'Error generating report.');
         } finally {
             setLoading(false);
         }
