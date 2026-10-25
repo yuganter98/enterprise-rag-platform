@@ -1,4 +1,3 @@
-from typing import Generator, Optional
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 import jwt
@@ -6,7 +5,6 @@ from jwt.exceptions import PyJWTError
 from pydantic import ValidationError
 from sqlalchemy.orm import Session
 
-from app.core import security
 from app.core.config import settings
 from app.db.session import get_db
 from app.models.user import User
@@ -35,7 +33,7 @@ def get_current_user(
         token_data = TokenPayload(**payload)
         user_id = int(token_data.sub)
     except (PyJWTError, ValidationError, TypeError, ValueError):
-        raise credentials_exception
+        raise credentials_exception from None
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise credentials_exception

@@ -1,5 +1,5 @@
 from typing import Any
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.api import deps
@@ -30,5 +30,4 @@ def send_email_endpoint(
         return {"message": status_msg}
     except PermissionError as e:
         # Catch the RBAC error from service and return 403
-        from fastapi import HTTPException
-        raise HTTPException(status_code=403, detail=str(e))
+        raise HTTPException(status_code=403, detail=str(e)) from e

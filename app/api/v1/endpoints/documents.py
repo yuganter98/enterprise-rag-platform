@@ -14,7 +14,7 @@ from app.services.rag.service import ingest_document
 
 router = APIRouter()
 
-UPLOAD_DIR = os.path.join(os.getcwd(), "data", "uploads")
+UPLOAD_DIR = os.path.join(os.path.abspath(settings.DATA_DIR), "uploads")
 if not os.path.exists(UPLOAD_DIR):
     os.makedirs(UPLOAD_DIR)
 
@@ -90,7 +90,7 @@ def upload_document(
     except Exception as e:
         os.remove(file_location)
         print(f"[Documents] Ingestion failed for {original_name}: {e}")
-        raise HTTPException(status_code=422, detail="Could not process this document. Check that the file is valid.")
+        raise HTTPException(status_code=422, detail="Could not process this document. Check that the file is valid.") from e
 
     # 4. Save metadata to DB
     doc = Document(

@@ -1,0 +1,23 @@
+LUMEN DYNAMICS - INFORMATION SECURITY POLICY
+Version 2.0 (fictional company, sample data for demos)
+
+1. PASSWORDS AND MULTI-FACTOR AUTHENTICATION
+Passwords must be at least 14 characters long. Employees must use the company password manager and never reuse work passwords on other sites. Multi-factor authentication (MFA) is mandatory for email, the VPN, source control and all cloud consoles. Hardware security keys are required for engineers with production access.
+
+2. DEVICES
+Only company-managed laptops may access internal systems. Disk encryption, automatic screen lock after 5 minutes, and automatic OS updates must stay enabled. Personal phones may access email and chat only through the managed mobile app.
+
+3. DATA CLASSIFICATION
+Data is classified as Public, Internal, Confidential or Restricted. Customer data and employee personal data are Restricted and may only be stored in approved systems. Restricted data must never be pasted into public AI tools; use the internal Enterprise AI Assistant instead.
+
+4. ACCESS CONTROL
+Access follows the principle of least privilege. Access requests go through the IT helpdesk and must be approved by the system owner. Managers review their team's access every quarter. Access is revoked within 24 hours when an employee leaves.
+
+5. REPORTING INCIDENTS
+Report suspected phishing, lost devices or data leaks immediately to security@lumen.example or by calling the 24/7 security line. Do not try to investigate on your own. Lost or stolen laptops must be reported within 1 hour so they can be remotely wiped.
+
+6. SOFTWARE
+Only software from the approved catalogue may be installed. Requests for new tools are reviewed by IT and Security within 5 working days. Browser extensions that can read page content require security approval.
+
+7. TRAINING
+All employees complete security awareness training during onboarding and every 12 months afterwards. Simulated phishing exercises run quarterly.

@@ -1,14 +1,20 @@
 import os
+from functools import lru_cache
 from typing import List
-from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
 
-# Path to store the FAISS index locally
-VECTOR_STORE_PATH = os.path.join(os.getcwd(), "data", "vector_store")
+from app.core.config import settings
 
+# Path to store the FAISS index locally
+VECTOR_STORE_PATH = os.path.join(os.path.abspath(settings.DATA_DIR), "vector_store")
+
+@lru_cache(maxsize=1)
 def get_embeddings():
-    """Returns the HuggingFace embedding model."""
+    """Returns the HuggingFace embedding model (loaded once per process)."""
+    # Imported lazily: pulls in torch, which is slow and not needed by every caller.
+    from langchain_huggingface import HuggingFaceEmbeddings
+
     # This downloads the model locally on first use (~80MB)
     return HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 

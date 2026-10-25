@@ -54,6 +54,9 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER: EmailStr = "admin@enterprise.com"
     FIRST_SUPERUSER_PASSWORD: str = DEV_SUPERUSER_PASSWORD
 
+    # Storage: uploads, FAISS index and reports live under this directory
+    DATA_DIR: str = "data"
+
     # Uploads
     MAX_UPLOAD_SIZE_MB: int = 20
 

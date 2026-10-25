@@ -1,0 +1,31 @@
+LUMEN DYNAMICS - EMPLOYEE HANDBOOK
+Version 3.2 (fictional company, sample data for demos)
+
+1. WORKING HOURS
+Core hours are 10:00 to 16:00 local time, Monday to Friday. Outside core hours, employees may organise their own schedule as long as they work 40 hours per week. Meetings should not be scheduled outside core hours without the attendee's agreement.
+
+2. REMOTE WORK
+Employees may work remotely up to three days per week. Teams agree on at least one shared office day. Fully remote arrangements require written approval from both the manager and HR. When working remotely, employees must use the company VPN and a company-managed laptop.
+
+3. ANNUAL LEAVE
+Full-time employees receive 24 days of paid annual leave per calendar year, plus public holidays. Leave accrues monthly at 2 days per month. Up to 5 unused days may be carried over into the next year; carried-over days expire on 31 March. Leave requests of more than 5 consecutive days must be submitted at least 4 weeks in advance through the HR portal.
+
+4. SICK LEAVE
+Employees receive 10 days of paid sick leave per year. A doctor's note is required for absences longer than 3 consecutive working days. Sick leave does not carry over.
+
+5. PARENTAL LEAVE
+Primary caregivers receive 20 weeks of fully paid parental leave. Secondary caregivers receive 6 weeks of fully paid leave, which can be taken within the first 12 months after birth or adoption.
+
+6. EXPENSES
+Business expenses must be submitted within 30 days with an itemised receipt. Meals while travelling are reimbursed up to 60 USD per day. Economy class is standard for flights under 6 hours; premium economy is allowed for longer flights. Expenses above 500 USD need pre-approval from your manager.
+
+7. LEARNING BUDGET
+Every employee has an annual learning budget of 1,500 USD for courses, conferences, books and certifications. Unused budget does not roll over. Requests are approved by the employee's manager.
+
+8. CODE OF CONDUCT
+Lumen Dynamics does not tolerate harassment or discrimination of any kind. Concerns can be raised with your manager, with HR, or anonymously through the ethics hotline. Retaliation against anyone who raises a concern in good faith is prohibited.
+
+9. CONTACTS
+HR questions: hr@lumen.example
+IT helpdesk: it-help@lumen.example
+Facilities: facilities@lumen.example

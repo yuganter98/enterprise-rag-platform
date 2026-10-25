@@ -1,0 +1,14 @@
+LUMEN DYNAMICS - 2027 STRATEGY BRIEFING (RESTRICTED: ADMIN ONLY)
+(fictional company, sample data for demos)
+
+1. SUMMARY
+The leadership team plans to expand into the European market in Q2 2027, starting with an office in Amsterdam of roughly 25 people.
+
+2. PRODUCT
+The "Atlas" analytics platform will be split into a self-serve tier and an enterprise tier. The enterprise tier adds single sign-on, audit logs and a dedicated support contract.
+
+3. FINANCIALS
+Target revenue for 2027 is 48 million USD, up from 34 million USD in 2026. Planned headcount growth is 18 percent, focused on sales and customer success.
+
+4. RISKS
+The main risks are slower enterprise sales cycles, hiring competition for senior engineers, and new EU data-residency requirements, which will require a separate EU hosting region.
